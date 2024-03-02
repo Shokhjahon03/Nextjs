@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import moon from '../assets/Path.png'
 import axios from 'axios'
+import Link from 'next/link'
+import useCounter from '@/zustant/countres'
 const HomePAge = () => {
-
+  const {getIdVal,idval} = useCounter();
   let [datas,setDatas]=useState<{
-    id:1,
+    id:number,
     imgUrl:string,
     name:string,
     ppulation:string,
@@ -23,17 +25,26 @@ const HomePAge = () => {
       console.log(error);
     }
   }
+
+  let func=(id:number)=>{
+    getIdVal(id)
+  }
+
 useEffect(()=>{
   axiosdata()
+  console.log(idval);
+  
 },[])
+
+
   return (
     <>
      <nav className='bg-[#2B3844]'>
         <div className="container">
           <div className="navbar w-full h-[80px] flex justify-between items-center text-white">
               <h1 className='text-[24px] font-extrabold'>Where in the world?</h1>
-              <button className='flex justify-between items-center'>
-                <img className='w-[30px] h-[30px] rounded-full' src="https://cdn.iconscout.com/icon/premium/png-256-thumb/moon-1913231-1619565.png" alt="alt" />
+              <button className='flex justify-between items-center w-[108px]'>
+              <i className='bx bxs-moon' ></i> 
                 <p>Darh Mode</p>
               </button>
           </div>
@@ -56,10 +67,10 @@ useEffect(()=>{
 
       <section className='w-full mt-[48px]'>
           <div className="container">
-            <div className='w-full flex flex-wrap gap-[70px]'>
+            <div  className='w-full flex flex-wrap gap-[70px]'>
               {
                 datas.map((e,i)=>(
-                  <div className='w-[264px] flex flex-col cursor-grabbing' key={i}>
+                  <Link onClick={()=>func(e.id)} href='/detail' className='w-[264px] flex flex-col cursor-grabbing' key={i}>
                       <img className='w-[264px] h-[160px] rounded-md' src={e.imgUrl} alt="alt" />
                         <div className='w-full p-[24px] bg-[#2B3844]'>
                           <h2 className='text-[18px] mb-[16px]'>{e.name}</h2>
@@ -67,7 +78,7 @@ useEffect(()=>{
                           <p className='text-[12px] flex mb-[8px] items-center gap-x-2 text-slate-500'><p className='text-[#FFFFFF] text-[14px]'>Region:</p>{e.region}</p>
                           <p className='text-[12px] flex mb-[8px] items-center gap-x-2 text-slate-500'><p className='text-[#FFFFFF] text-[14px]'>Capital:</p>{e.capitals}</p>
                         </div>
-                  </div>
+                  </Link>
                 ))
               }
             </div>
