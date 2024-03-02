@@ -17,7 +17,7 @@
 }
 
 body {
-  color: black;
+  color: rgb(251, 249, 249);
   /* color: rgb(var(--foreground-rgb)); */
   /* background: linear-gradient(
       to bottom,
@@ -26,6 +26,7 @@ body {
     )
     rgb(var(--background-start-rgb));
     background-repeat: no-repeat; */
+    background-color: #202C36;
 }
 .container{
   max-width: 1320px;
