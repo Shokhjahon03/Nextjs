@@ -1,28 +1,35 @@
 import { create } from 'zustand';
 import axios from 'axios';
 type counters ={
-    idval:{
-        id:number,
-        imgUrl:string,
-        name:string,
-        ppulation:string,
-        region:string,
-        capitals:string,
-        currons: string
-    }[],
-    getIdVal:(id:number)=>void
+    idval:any,
+    regions:[],
+    getIdVal:(name:string)=>void,
+    getReaginCounters:(name:string)=>void
 }
 let useCounter= create<counters>((set)=>({
     idval:[],
-    getIdVal:async (id:number)=>{
+    regions:[],
+    getIdVal:async (name:string)=>{
         try {
-           let res= await axios.get(`http://localhost:3000/counters/${id}`)
+           let res= await axios.get(`https://restcountries.com/v3.1/name/${name}`)
            let dat= await res.data
            set(() => ({
-            idval:[dat]
+            idval:dat
           }));
         } catch (error) {
            console.log(error); 
+        }
+    },
+    getReaginCounters:async(name:string)=>{
+        try {
+            let res=await axios.get(`https://restcountries.com/v3.1/region/${name}`)
+            let dat=await res.data
+            set(() => ({
+                regions:dat
+              }));
+        } catch (error) {
+            console.log(error);
+            
         }
     }
 }))

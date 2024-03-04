@@ -1,9 +1,20 @@
 'use client'
 import useCounter from '@/zustant/countres';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const DetailPage = () => {
   const {getIdVal,idval} = useCounter();
+  console.log(idval);
+  let [loading,setLoading]=useState(true)
+  let [torf,setTorf]=useState<any>([])
+
+  let func=async()=>{
+    setTorf(idval)
+    setLoading(false)
+  }
+  useEffect(()=>{
+    func()
+  },[])
   return (
     <>
       <nav className='bg-[#2B3844]'>
@@ -22,19 +33,23 @@ const DetailPage = () => {
       </div>
       <div>
         <div className="container">
+        <div className={loading ? ' w-full flex justify-center flex-col items-center':'hidden'}>
+              <div className="spinner"></div>
+              <h1>Loading..</h1>
+              </div>
               {
-                idval.map((e,i)=>(
+                idval.map((e:any,i:number)=>(
                   <div className='w-full flex items-center justify-between' key={i}>
-                      <img className='w-[560px] h-[401px] rounded-md' src={e.imgUrl} alt="alt" />
+                      <img className='w-[560px] h-[401px] rounded-md' src={e.flags.png} alt="alt" />
                       <div className='w-[574px]'>
-                        <p className='text-[32px] font-extrabold leading-[43.65px]'>{e.name}</p>
+                        <p className='text-[32px] font-extrabold leading-[43.65px]'>{e.name.common}</p>
                         <div className='flex w-full justify-between mt-[23px]'>
                           <div>
-                            <p className='text-[16px]'>Native Name: {e.name}</p>
-                            <p className='text-[16px]'>Population: {e.ppulation}</p>
+                            <p className='text-[16px]'>Native Name: {e.name.common}</p>
+                            <p className='text-[16px]'>Population: {e.population}</p>
                             <p className='text-[16px]'>Region: {e.region}</p>
                             <p className='text-[16px]'>Sub Region: Western Europe</p>
-                            <p className='text-[16px]'>Capitall: {e.capitals}</p>
+                            <p className='text-[16px]'>Capitall: {e.capital}</p>
                           </div>
                           <div>
                             <p className='text-[16px]'>Top Level Domain: .be</p>
